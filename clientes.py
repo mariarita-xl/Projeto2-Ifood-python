@@ -130,8 +130,6 @@ def fazer_pedido(cliente):
         })
         print(f"\033[1;32m✅ Pedido adicionado: {quantidade}x {produto['descricao']}\033[0m")
         
-
-        # 🔹 Atualiza o JSON
         todos_clientes = Cliente.carregar_clientes()
         for c in todos_clientes:
             if c["cpf"] == cliente["cpf"]:
