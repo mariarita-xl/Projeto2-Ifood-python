@@ -97,7 +97,7 @@ class Cliente(Usuario):
             if cliente["email"] == email and cliente["senha"] == senha:
                 print(f"\033[1;32mBem-vindo, {cliente['nome']}!\033[0m")
                 return cliente
-        print("\033[1;31m ⚠️  Email e senha não encontrados!\033[0m")
+        print("\033[1;31m⚠️  Email e senha não encontrados!\033[0m")
         return None
     
 def ver_cardapio():
@@ -137,34 +137,34 @@ def fazer_pedido(cliente):
                 break
         Cliente.salvar_clientes(todos_clientes)
     else:
-        print("❌ Produto não encontrado!")
-
+        print("\033[1;31m❌ Produto não encontrado!\033[0m")
 
 def ver_pedido(cliente):
     if cliente["pedidos"] == []:
         print("\033[1;31m📭 Seu carrinho está vazio!\033[0m")
         return
     
-    print("\n\033[1;36m" + "="*40 + "\033[0m")
+    print("\033[1;36m" + "="*40 + "\033[0m")
     print("\033[1;33m🧾 VENDO PEDIDO... 🧾\033[0m")
     print("\033[1;36m" + "="*40 + "\033[0m") 
     for pedido in cliente["pedidos"]:
-        print(f"{pedido['descricao']} x{pedido['quantidade']} - R${pedido['total']}")
+        print(f"\033[1;32m{pedido['descricao']} {pedido['quantidade']}x - R${pedido['total']}\033[0m")
 
 def cancelar_pedido(cliente):
     if cliente["pedidos"] == []:
-        print("❌ Não há pedidos para cancelar!")
+        print("\033[1;31m❌ Não há pedidos para cancelar!\033[0m")
         return
-
-    print("\nSEUS PEDIDOS:")
+    print("\033[1;36m" + "="*40 + "\033[0m")
+    print("\033[1;33mSEUS PEDIDOS\033[0m")
+    print("\033[1;36m" + "="*40 + "\033[0m") 
     for i in range(len(cliente["pedidos"])):
         pedido = cliente["pedidos"][i]
-        print(f"{i+1}. {pedido['descricao']} x{pedido['quantidade']} - R${pedido['total']}")
+        print(f"\033[1;32m{i+1}. {pedido['descricao']} x{pedido['quantidade']} - R${pedido['total']}\033[0m")
 
-    indice = int(input("Digite o número do pedido que deseja cancelar: "))
+    indice = int(input("\nDigite o número do pedido que deseja cancelar: "))
     if 1 <= indice <= len(cliente["pedidos"]):
         pedido_cancelado = cliente["pedidos"].pop(indice - 1)
-        print(f"✅ Pedido cancelado: {pedido_cancelado['quantidade']}x {pedido_cancelado['descricao']}")
+        print(f"\n\033[1;32m✅ Pedido cancelado: {pedido_cancelado['quantidade']}x {pedido_cancelado['descricao']}\033[0m")
 
         todos_clientes = Cliente.carregar_clientes()
         for c in todos_clientes:
@@ -173,5 +173,18 @@ def cancelar_pedido(cliente):
                 break
         Cliente.salvar_clientes(todos_clientes)
     else:
-        print("❌ Número inválido!")
-    
+        print("\033\n[1;31m❌ Número inválido!\033[0m")
+
+"""
+Criar histórico de pedidos do cliente
+"""
+def ver_historico(cliente):
+    historico = cliente.get("historico_pedidos", [])
+    if not historico:
+        print("\033[1;31m📭 Nenhum pedido entregue ainda!\033[0m")
+        return
+    print("\033[1;36m" + "="*40 + "\033[0m")
+    print("\033[1;33m🍕 HISTÓRICO DE PEDIDOS 🍕\033[0m")
+    print("\033[1;36m" + "="*40 + "\033[0m")
+    for p in historico:
+        print(f"{p['descricao']} x{p['quantidade']} - R${p['total']}")
